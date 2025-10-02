@@ -48,7 +48,7 @@ int main(int argc, const char **argv)
 }
 
 
-// NEEDED :
+// NEEDED for Friday 10:
 // - Clear Layer and dependencies cleaning + make a class diagram of the refactored code
 // - Actor / Component need to be implemented
 // - Remove singleton
