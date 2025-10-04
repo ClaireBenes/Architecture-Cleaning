@@ -31,6 +31,13 @@ namespace engine
 				nextMapRequested = false;
 				loadMap(nextMapName);
 			}
+
+			if (shouldGameOver)
+			{
+				std::cout << "Game over" << std::endl;
+				loadMap(currentMapName);
+				shouldGameOver = false;
+			}
 		}
 
 		void Manager::draw()
@@ -43,8 +50,7 @@ namespace engine
 
 		void Manager::gameOver()
 		{
-			std::cout << "Game over" << std::endl;
-			loadMap(currentMapName);
+			shouldGameOver = true;
 		}
 
 		sf::Vector2f Manager::getViewCenter() const

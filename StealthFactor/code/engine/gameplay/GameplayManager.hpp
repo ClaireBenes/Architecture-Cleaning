@@ -46,6 +46,7 @@ namespace engine
 
 			bool preventMapCompletion{ false };
 			bool nextMapRequested{ false };
+			bool shouldGameOver{ false };
 
 			static Manager *instance;
 		};
