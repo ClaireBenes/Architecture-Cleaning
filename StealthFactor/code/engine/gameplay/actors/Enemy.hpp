@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
-#include <engine/gameplay/entities/Character.hpp>
+
+#include <engine/gameplay/actors/Character.hpp>
 
 namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
 			class Enemy : public Character
 			{

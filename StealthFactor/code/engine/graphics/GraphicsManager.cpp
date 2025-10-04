@@ -6,6 +6,7 @@
 #include <engine/input/InputManager.hpp>
 #include <engine/graphics/ShapeList.hpp>
 #include <engine/gameplay/GameplayManager.hpp>
+#include <engine/gameplay/components/RenderComponent.hpp>
 #include <engine/Engine.hpp>
 
 namespace engine
@@ -56,6 +57,18 @@ namespace engine
 			}
 		}
 
+		void Manager::render()
+		{
+			clear();
+
+			for (const std::shared_ptr<gameplay::RenderComponent>& renderComponent : renderComponents)
+			{
+				renderComponent->draw();
+			}
+
+			display();
+		}
+
 		void Manager::clear()
 		{
 			window.clear(sf::Color::Black);
@@ -81,6 +94,19 @@ namespace engine
 		bool Manager::hasFocus() const
 		{
 			return window.hasFocus();
+		}
+
+		void Manager::addRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent)
+		{
+			renderComponents.push_back(renderComponent);
+		}
+
+		void Manager::removeRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent)
+		{
+			auto itr = std::find(renderComponents.begin(), renderComponents.end(), renderComponent);
+			assert(itr != renderComponents.end());
+
+			renderComponents.erase(itr);
 		}
 
 		Manager &Manager::getInstance()

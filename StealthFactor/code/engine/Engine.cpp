@@ -48,11 +48,7 @@ namespace engine
 			gameplay::Manager::getInstance().update();
 			graphics::Manager::getInstance().update();
 
-			graphics::Manager::getInstance().clear();
-
-			gameplay::Manager::getInstance().draw();
-
-			graphics::Manager::getInstance().display();
+			graphics::Manager::getInstance().render();
 		}
 	}
 

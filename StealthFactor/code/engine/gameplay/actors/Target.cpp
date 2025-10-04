@@ -8,11 +8,13 @@ namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
 			Target::Target()
 			{
-				shapeList.load("target");
+				renderComponent = std::make_shared<RenderComponent>(*this);
+				renderComponent->getShapeList().load("target");
+				addComponent(renderComponent);
 
 				collisionGeomId = dCreateBox(physics::Manager::getInstance().getSpaceId(), gameplay::Manager::CELL_SIZE * 0.9f, gameplay::Manager::CELL_SIZE * 0.9f, 1.f);
 				dGeomSetData(collisionGeomId, this);
@@ -27,11 +29,6 @@ namespace engine
 			{
 				auto &position = getPosition();
 				dGeomSetPosition(collisionGeomId, position.x, position.y, 0);
-			}
-
-			void Target::draw()
-			{
-				graphics::Manager::getInstance().draw(shapeList, getTransform());
 			}
 		}
 	}

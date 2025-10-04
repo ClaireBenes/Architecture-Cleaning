@@ -7,22 +7,20 @@ namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
 			Character::Character()
 			{
 				collisionGeomId = dCreateBox(physics::Manager::getInstance().getSpaceId(), 0.f, 0.f, 0.f);
 				dGeomSetData(collisionGeomId, this);
+
+				renderComponent = std::make_shared<RenderComponent>(*this);
+				addComponent(renderComponent);
 			}
 
 			Character::~Character()
 			{
 				dGeomDestroy(collisionGeomId);
-			}
-
-			void Character::draw()
-			{
-				graphics::Manager::getInstance().draw(shapeList, getTransform());
 			}
 		}
 	}

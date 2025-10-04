@@ -8,9 +8,9 @@ namespace engine
 {
 	namespace gameplay
 	{
-		class Entity;
+		class Actor;
 
-		namespace entities
+		namespace actors
 		{
 			class Player;
 		}
@@ -19,7 +19,6 @@ namespace engine
 		{
 		public:
 			void update();
-			void draw();
 
 			void gameOver();
 
@@ -28,15 +27,15 @@ namespace engine
 			void loadMap(const std::string &mapName);
 			void loadNextMap();
 
-			const entities::Player &getPlayer() const;
+			const actors::Player &getPlayer() const;
 
 			static const float CELL_SIZE;
 
 			static Manager &getInstance();
 
 		private:
-			std::set<Entity *> entities;
-			entities::Player *playerEntity{};
+			std::set<Actor *> actors;
+			actors::Player *playerActor{};
 
 			// Map
 			std::string currentMapName;

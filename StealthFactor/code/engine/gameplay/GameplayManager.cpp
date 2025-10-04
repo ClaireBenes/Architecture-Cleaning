@@ -5,11 +5,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 #include <pugixml/pugixml.hpp>
+
+#include <engine/gameplay/actors/Enemy.hpp>
+#include <engine/gameplay/actors/Player.hpp>
+#include <engine/gameplay/actors/Target.hpp>
+
 #include <engine/Engine.hpp>
-#include <engine/gameplay/entities/Enemy.hpp>
-#include <engine/gameplay/entities/Player.hpp>
-#include <engine/gameplay/entities/Target.hpp>
 
 namespace engine
 {
@@ -20,7 +23,7 @@ namespace engine
 
 		void Manager::update()
 		{
-			for (auto entity : entities)
+			for (auto entity : actors)
 			{
 				entity->update();
 			}
@@ -40,14 +43,6 @@ namespace engine
 			}
 		}
 
-		void Manager::draw()
-		{
-			for (auto entity : entities)
-			{
-				entity->draw();
-			}
-		}
-
 		void Manager::gameOver()
 		{
 			shouldGameOver = true;
@@ -60,11 +55,11 @@ namespace engine
 
 		void Manager::loadMap(const std::string & mapName)
 		{
-			for (auto entity : entities)
+			for (auto entity : actors)
 			{
 				delete entity;
 			}
-			entities.clear();
+			actors.clear();
 
 			std::stringstream filename;
 			filename << "maps/" << mapName << ".xml";
@@ -95,10 +90,10 @@ namespace engine
 
 						std::string archetypeName = xmlElement.child_value("archetype");
 
-						auto entity = new entities::Enemy{ archetypeName };
+						auto entity = new actors::Enemy{ archetypeName };
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
-						entities.insert(entity);
+						actors.insert(entity);
 					}
 
 					if (!std::strcmp(xmlElement.name(), "player"))
@@ -109,11 +104,11 @@ namespace engine
 						int column = std::stoi(xmlElement.child_value("column"));
 						assert(column >= 0 && column < columns);
 
-						auto entity = new entities::Player{};
+						auto entity = new actors::Player{};
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
-						entities.insert(entity);
-						playerEntity = entity;
+						actors.insert(entity);
+						playerActor = entity;
 					}
 
 					if (!std::strcmp(xmlElement.name(), "target"))
@@ -124,10 +119,10 @@ namespace engine
 						int column = std::stoi(xmlElement.child_value("column"));
 						assert(column >= 0 && column < columns);
 
-						auto entity = new entities::Target{};
+						auto entity = new actors::Target{};
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
-						entities.insert(entity);
+						actors.insert(entity);
 					}
 				}
 
@@ -154,10 +149,10 @@ namespace engine
 			}
 		}
 
-		const entities::Player &Manager::getPlayer() const
+		const actors::Player &Manager::getPlayer() const
 		{
-			assert(playerEntity);
-			return *playerEntity;
+			assert(playerActor);
+			return *playerActor;
 		}
 
 		Manager &Manager::getInstance()

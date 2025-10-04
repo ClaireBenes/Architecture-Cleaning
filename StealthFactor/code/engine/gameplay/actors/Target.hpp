@@ -1,16 +1,19 @@
 #pragma once
 
 #include <ode/collision.h>
+
 #include <engine/graphics/ShapeList.hpp>
-#include <engine/gameplay/Entity.hpp>
+
+#include <engine/gameplay/Actor.hpp>
+#include <engine/gameplay/components/RenderComponent.hpp>
 
 namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
-			class Target : public Entity
+			class Target : public Actor
 			{
 			public:
 				Target();
@@ -18,10 +21,9 @@ namespace engine
 
 				virtual void update() override;
 
-				virtual void draw() override;
-
 			private:
-				graphics::ShapeList shapeList;
+				std::shared_ptr<RenderComponent> renderComponent;
+
 				dGeomID collisionGeomId;
 			};
 		}

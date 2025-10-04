@@ -1,25 +1,27 @@
 #pragma once
 
 #include <ode/collision.h>
+
 #include <engine/graphics/ShapeList.hpp>
-#include <engine/gameplay/Entity.hpp>
+
+#include <engine/gameplay/Actor.hpp>
+#include <engine/gameplay/components/RenderComponent.hpp>
 
 namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
-			class Character : public Entity
+			class Character : public Actor
 			{
 			public:
 				Character();
 				virtual ~Character();
 
-				virtual void draw() override;
-
 			protected:
-				graphics::ShapeList shapeList;
+				std::shared_ptr<RenderComponent> renderComponent;
+
 				dGeomID collisionGeomId;
 
 				bool isWalking{ false };

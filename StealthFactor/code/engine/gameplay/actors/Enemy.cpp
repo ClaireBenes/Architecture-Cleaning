@@ -2,15 +2,17 @@
 
 #include <iostream>
 #include <sstream>
+
 #include <pugixml/pugixml.hpp>
+
 #include <engine/gameplay/GameplayManager.hpp>
-#include <engine/gameplay/entities/Player.hpp>
+#include <engine/gameplay/actors/Player.hpp>
 
 namespace engine
 {
 	namespace gameplay
 	{
-		namespace entities
+		namespace actors
 		{
 			Enemy::Enemy(const std::string &archetypeName)
 			{
@@ -60,7 +62,8 @@ namespace engine
 					auto xmlArchetype = doc.first_child();
 
 					std::string shapeListName = xmlArchetype.child_value("shapelist");
-					assert(shapeList.load(shapeListName));
+					bool hasLoaded = renderComponent->getShapeList().load(archetypeName);
+					assert(hasLoaded);
 
 					visionRadius = std::stof(xmlArchetype.child_value("vision_radius"));
 					assert(visionRadius > 0.f);
