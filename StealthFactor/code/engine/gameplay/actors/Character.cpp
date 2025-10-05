@@ -1,6 +1,6 @@
 #include "Character.hpp"
 
-#include <engine/Engine.hpp>
+#include <engine/physics/PhysicsManager.hpp>
 
 namespace engine
 {

@@ -2,7 +2,6 @@
 
 #include <set>
 
-#include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
 #include <engine/ApplicationEventListener.h>

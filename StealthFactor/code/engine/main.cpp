@@ -52,7 +52,7 @@ int main(int argc, const char **argv)
 // NEEDED for Friday 10:
 // - Clear Layer and dependencies cleaning + make a class diagram of the refactored code
 // - Actor / Component need to be implemented
-// - Remove singleton
+// - Remove singleton - V
 // - Implement ownership using smrt pointr (especially unique) and RAII
 
 // Remove THAT MUCH dependencies in the managers or at least explicit it ("class SGSGDFGDF" in the hpp)

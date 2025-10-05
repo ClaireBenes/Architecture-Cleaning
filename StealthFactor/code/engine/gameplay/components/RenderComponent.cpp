@@ -1,7 +1,7 @@
 #include "RenderComponent.hpp"
 
 #include <engine/gameplay/Actor.hpp>
-#include <engine/Engine.hpp>
+#include <engine/graphics/GraphicsManager.hpp>
 
 namespace engine
 {

@@ -1,9 +1,7 @@
 #include "Target.hpp"
 
 #include <engine/gameplay/GameplayManager.hpp>
-#include <engine/graphics/GraphicsManager.hpp>
 #include <engine/physics/PhysicsManager.hpp>
-#include <engine/Engine.hpp>
 
 namespace engine
 {

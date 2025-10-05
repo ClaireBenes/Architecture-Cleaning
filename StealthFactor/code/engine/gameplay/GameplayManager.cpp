@@ -12,7 +12,7 @@
 #include <engine/gameplay/actors/Player.hpp>
 #include <engine/gameplay/actors/Target.hpp>
 
-#include <engine/Engine.hpp>
+#include <engine/graphics/GraphicsManager.hpp>
 
 namespace engine
 {

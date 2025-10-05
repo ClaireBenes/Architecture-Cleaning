@@ -4,7 +4,10 @@
 #include <iostream>
 #include <sstream>
 #include <pugixml/pugixml.hpp>
+
 #include <SFML/System.hpp>
+#include <SFML/Window/Event.hpp>
+
 #include <engine/gameplay/GameplayManager.hpp>
 #include <engine/graphics/GraphicsManager.hpp>
 #include <engine/physics/PhysicsManager.hpp>

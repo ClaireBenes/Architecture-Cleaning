@@ -2,6 +2,8 @@
 
 #include <iterator>
 
+#include <SFML/Window/Event.hpp>
+
 namespace engine
 {
 	namespace input

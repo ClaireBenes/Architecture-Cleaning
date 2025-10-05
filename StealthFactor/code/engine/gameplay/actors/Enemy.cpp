@@ -6,7 +6,7 @@
 #include <pugixml/pugixml.hpp>
 
 #include <engine/gameplay/actors/Player.hpp>
-#include <engine/Engine.hpp>
+#include <engine/gameplay/GameplayManager.hpp>
 
 namespace engine
 {
