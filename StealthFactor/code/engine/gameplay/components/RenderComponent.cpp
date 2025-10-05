@@ -1,7 +1,7 @@
 #include "RenderComponent.hpp"
 
 #include <engine/gameplay/Actor.hpp>
-#include <engine/graphics/GraphicsManager.hpp>
+#include <engine/Engine.hpp>
 
 namespace engine
 {
@@ -15,13 +15,17 @@ namespace engine
 		void RenderComponent::setup()
 		{
 			const std::shared_ptr<RenderComponent> sharedThis = getSharedPointer<RenderComponent>();
-			graphics::Manager::getInstance().addRenderComponent(sharedThis);
+
+			graphics::Manager* graphicsManager = owner.getManagerProvider().graphicsManager;
+			graphicsManager->addRenderComponent(sharedThis);
 		}
 
 		void RenderComponent::unSetup()
 		{
 			const std::shared_ptr<RenderComponent> sharedThis = getSharedPointer<RenderComponent>();
-			graphics::Manager::getInstance().removeRenderComponent(sharedThis);
+
+			graphics::Manager* graphicsManager = owner.getManagerProvider().graphicsManager;
+			graphicsManager->removeRenderComponent(sharedThis);
 		}
 
 		graphics::ShapeList& RenderComponent::getShapeList()
@@ -31,7 +35,8 @@ namespace engine
 
 		void RenderComponent::draw()
 		{
-			graphics::Manager::getInstance().draw(shapeList, owner.getTransform());
+			graphics::Manager* graphicsManager = owner.getManagerProvider().graphicsManager;
+			graphicsManager->draw(shapeList, owner.getTransform());
 		}
 	}
 }

@@ -1,8 +1,10 @@
 #include "engine/graphics/GraphicsManager.hpp"
 
 #include <cassert>
+
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <engine/input/InputManager.hpp>
 #include <engine/graphics/ShapeList.hpp>
 #include <engine/gameplay/GameplayManager.hpp>
@@ -13,9 +15,8 @@ namespace engine
 {
 	namespace graphics
 	{
-		Manager *Manager::instance = nullptr;
-
-		Manager::Manager()
+		Manager::Manager(ApplicationEventListener &eventListener)
+			: eventListener(eventListener)
 		{
 			window.create(sf::VideoMode{ (unsigned int)WINDOW_WIDTH, (unsigned int)WINDOW_HEIGHT }, "Stealth Factor");
 
@@ -32,28 +33,13 @@ namespace engine
 
 		void Manager::update()
 		{
-			input::Manager::getInstance().clear();
+			//input::Manager& inputManager = engine.getInputManager();
+			//inputManager.clear();
 
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
-				switch (event.type)
-				{
-				case sf::Event::Closed:
-					Engine::getInstance().exit();
-					break;
-
-				case sf::Event::KeyPressed:
-					input::Manager::getInstance().onKeyPressed(event.key);
-					break;
-
-				case sf::Event::KeyReleased:
-					input::Manager::getInstance().onKeyReleased(event.key);
-					break;
-
-				default:
-					break;
-				}
+				eventListener.onApplicationEvent(event);
 			}
 		}
 
@@ -73,8 +59,9 @@ namespace engine
 		{
 			window.clear(sf::Color::Black);
 
-			sf::View view{ gameplay::Manager::getInstance().getViewCenter(), sf::Vector2f{(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT} };
-			window.setView(view);
+			//gameplay::Manager& gameplayManager = engine.getGameplayManager();
+			//sf::View view{ gameplayManager.getViewCenter(), sf::Vector2f{(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT} };
+			//window.setView(view);
 		}
 
 		void Manager::draw(const ShapeList &shapeList, const sf::Transform &transform)
@@ -107,14 +94,6 @@ namespace engine
 			assert(itr != renderComponents.end());
 
 			renderComponents.erase(itr);
-		}
-
-		Manager &Manager::getInstance()
-		{
-			if (!instance)
-				instance = new Manager();
-
-			return *instance;
 		}
 	}
 }

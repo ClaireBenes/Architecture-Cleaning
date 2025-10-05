@@ -2,7 +2,10 @@
 
 #include <set>
 #include <string>
+
 #include <SFML/System/Vector2.hpp>
+
+#include <engine/gameplay/ManagerProvider.h>
 
 namespace engine
 {
@@ -18,6 +21,8 @@ namespace engine
 		class Manager
 		{
 		public:
+			Manager(const ManagerProvider& managerProvider);
+
 			void update();
 
 			void gameOver();
@@ -31,11 +36,11 @@ namespace engine
 
 			static const float CELL_SIZE;
 
-			static Manager &getInstance();
-
 		private:
 			std::set<Actor *> actors;
 			actors::Player *playerActor{};
+
+			const ManagerProvider& managerProvider;
 
 			// Map
 			std::string currentMapName;
@@ -46,8 +51,6 @@ namespace engine
 			bool preventMapCompletion{ false };
 			bool nextMapRequested{ false };
 			bool shouldGameOver{ false };
-
-			static Manager *instance;
 		};
 	}
 }

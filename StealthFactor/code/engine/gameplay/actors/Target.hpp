@@ -16,7 +16,7 @@ namespace engine
 			class Target : public Actor
 			{
 			public:
-				Target();
+				Target(const ManagerProvider& managerProvider);
 				~Target();
 
 				virtual void update() override;

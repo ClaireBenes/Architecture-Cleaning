@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <engine/ApplicationEventListener.h>
+
 namespace engine
 {
 	namespace gameplay
@@ -18,7 +20,7 @@ namespace engine
 		class Manager
 		{
 		public:
-			Manager();
+			Manager(ApplicationEventListener& eventListener);
 			~Manager();
 
 			void update();
@@ -31,8 +33,6 @@ namespace engine
 			void addRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent);
 			void removeRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent);
 
-			static Manager &getInstance();
-
 		private:
 			void clear();
 			void display();
@@ -42,10 +42,10 @@ namespace engine
 
 			sf::RenderWindow window;
 
+			ApplicationEventListener& eventListener;
+
 			static const sf::Int16 WINDOW_WIDTH = 800;
 			static const sf::Int16 WINDOW_HEIGHT = 600;
-
-			static Manager *instance;
 		};
 	}
 }

@@ -19,11 +19,18 @@ namespace engine
 	{
 		namespace actors
 		{
-			Player::Player()
+			Player::Player(const ManagerProvider& managerProvider)
+				: Character(managerProvider)
 			{
 				renderComponent->getShapeList().load("player");
-
-				collisionGeomId = dCreateBox(physics::Manager::getInstance().getSpaceId(), gameplay::Manager::CELL_SIZE * 0.9f, gameplay::Manager::CELL_SIZE * 0.9f, 1.f);
+				
+				// TODO: make a PhysicsComponent/BoxComponent
+				collisionGeomId = dCreateBox(
+					managerProvider.physicsManager->getSpaceId(), 
+					gameplay::Manager::CELL_SIZE * 0.9f, 
+					gameplay::Manager::CELL_SIZE * 0.9f, 
+					1.f
+				);
 				dGeomSetData(collisionGeomId, this);
 			}
 
@@ -33,28 +40,30 @@ namespace engine
 				auto position = getPosition();
 				float rotation = getRotation();
 
-				if (input::Manager::getInstance().isKeyJustPressed(sf::Keyboard::Left))
+				input::Manager* inputManager = managerProvider.inputManager;
+
+				if (inputManager->isKeyJustPressed(sf::Keyboard::Left))
 				{
 					justMoved = true;
 					position.x -= gameplay::Manager::CELL_SIZE;
 					rotation = 180.f;
 				}
 
-				if (input::Manager::getInstance().isKeyJustPressed(sf::Keyboard::Right))
+				if (inputManager->isKeyJustPressed(sf::Keyboard::Right))
 				{
 					justMoved = true;
 					position.x += gameplay::Manager::CELL_SIZE;
 					rotation = 0.f;
 				}
 
-				if (input::Manager::getInstance().isKeyJustPressed(sf::Keyboard::Up))
+				if (inputManager->isKeyJustPressed(sf::Keyboard::Up))
 				{
 					justMoved = true;
 					position.y -= gameplay::Manager::CELL_SIZE;
 					rotation = -90.f;
 				}
 
-				if (input::Manager::getInstance().isKeyJustPressed(sf::Keyboard::Down))
+				if (inputManager->isKeyJustPressed(sf::Keyboard::Down))
 				{
 					justMoved = true;
 					position.y += gameplay::Manager::CELL_SIZE;
@@ -69,14 +78,18 @@ namespace engine
 					dGeomSetPosition(collisionGeomId, position.x, position.y, 0);
 				}
 
-				auto collisions = physics::Manager::getInstance().getCollisionsWith(collisionGeomId);
+				physics::Manager* physicsManager = managerProvider.physicsManager;
+				gameplay::Manager* gameplayManager = managerProvider.gameplayManager;
+
+				// TODO: make a method on our soon-existing PhysicsComponent to get on-going collisions
+				auto collisions = physicsManager->getCollisionsWith(collisionGeomId);
 				for (auto &geomId : collisions)
 				{
 					auto entity = reinterpret_cast<Actor *>(dGeomGetData(geomId));
 					auto targetEntity = dynamic_cast<actors::Target *>(entity);
 					if (targetEntity)
 					{
-						gameplay::Manager::getInstance().loadNextMap();
+						gameplayManager->loadNextMap();
 					}
 				}
 			}

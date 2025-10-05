@@ -5,8 +5,8 @@
 
 #include <pugixml/pugixml.hpp>
 
-#include <engine/gameplay/GameplayManager.hpp>
 #include <engine/gameplay/actors/Player.hpp>
+#include <engine/Engine.hpp>
 
 namespace engine
 {
@@ -14,14 +14,17 @@ namespace engine
 	{
 		namespace actors
 		{
-			Enemy::Enemy(const std::string &archetypeName)
+			Enemy::Enemy(const ManagerProvider& managerProvider, const std::string &archetypeName)
+				: Character(managerProvider)
 			{
 				loadArchetype(archetypeName);
 			}
 
 			void Enemy::update()
 			{
-				auto &player = gameplay::Manager::getInstance().getPlayer();
+				gameplay::Manager* gameplayManager = managerProvider.gameplayManager;
+
+				auto &player = gameplayManager->getPlayer();
 				if (player.hasJustMoved())
 				{
 					auto &playerPosition = player.getPosition();
@@ -38,7 +41,7 @@ namespace engine
 						}
 						else
 						{
-							gameplay::Manager::getInstance().gameOver();
+							gameplayManager->gameOver();
 						}
 					}
 					else

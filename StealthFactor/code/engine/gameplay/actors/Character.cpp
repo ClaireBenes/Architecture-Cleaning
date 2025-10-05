@@ -1,7 +1,6 @@
 #include "Character.hpp"
 
-#include <engine/graphics/GraphicsManager.hpp>
-#include <engine/physics/PhysicsManager.hpp>
+#include <engine/Engine.hpp>
 
 namespace engine
 {
@@ -9,9 +8,10 @@ namespace engine
 	{
 		namespace actors
 		{
-			Character::Character()
+			Character::Character(const ManagerProvider& managerProvider)
+				: Actor(managerProvider)
 			{
-				collisionGeomId = dCreateBox(physics::Manager::getInstance().getSpaceId(), 0.f, 0.f, 0.f);
+				collisionGeomId = dCreateBox(managerProvider.physicsManager->getSpaceId(), 0.f, 0.f, 0.f);
 				dGeomSetData(collisionGeomId, this);
 
 				renderComponent = std::make_shared<RenderComponent>(*this);

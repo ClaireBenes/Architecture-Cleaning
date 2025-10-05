@@ -16,7 +16,7 @@ namespace engine
 			class Character : public Actor
 			{
 			public:
-				Character();
+				Character(const ManagerProvider& managerProvider);
 				virtual ~Character();
 
 			protected:

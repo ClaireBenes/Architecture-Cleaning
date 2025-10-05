@@ -1,16 +1,23 @@
 #pragma once
 
 #include <set>
+
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
+#include <engine/ApplicationEventListener.h>
+
 namespace engine
 {
+	class Engine;
+
 	namespace input
 	{
-		class Manager
+		class Manager : public ApplicationEventListener
 		{
 		public:
+			Manager(bool hasFocus);
+
 			// True during all frames while the key is pressed.
 			bool isKeyPressed(sf::Keyboard::Key key) const;
 
@@ -20,17 +27,15 @@ namespace engine
 			// True only the first frame after that the key is released.
 			bool isKeyJustReleased(sf::Keyboard::Key key) const;
 
-			void clear();
-			void onKeyPressed(const sf::Event::KeyEvent &event);
-			void onKeyReleased(const sf::Event::KeyEvent &event);
+			void update();
 
-			static Manager &getInstance();
+			void onApplicationEvent(const sf::Event &event) override;
 
 		private:
-			static Manager *instance;
-
 			std::set<sf::Keyboard::Key> justPressedKeys;
 			std::set<sf::Keyboard::Key> justReleasedKeys;
+
+			bool hasFocus = false;
 		};
 	}
 }

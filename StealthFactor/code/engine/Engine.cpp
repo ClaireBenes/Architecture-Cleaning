@@ -12,7 +12,20 @@
 
 namespace engine
 {
-	Engine *Engine::instance = nullptr;
+	Engine::Engine()
+	{
+		graphicsManager = std::make_unique<graphics::Manager>(*this);
+		managerProvider.graphicsManager = graphicsManager.get();
+		
+		inputManager = std::make_unique<input::Manager>(graphicsManager->hasFocus());
+		managerProvider.inputManager = inputManager.get();
+
+		physicsManager = std::make_unique<physics::Manager>();
+		managerProvider.physicsManager = physicsManager.get();
+
+		gameplayManager = std::make_unique<gameplay::Manager>(managerProvider);
+		managerProvider.gameplayManager = gameplayManager.get();
+	}
 
 	void Engine::loadConfiguration()
 	{
@@ -37,18 +50,19 @@ namespace engine
 	{
 		running = true;
 
-		gameplay::Manager::getInstance().loadMap(startMap);
+		gameplayManager->loadMap(startMap);
 
 		sf::Clock clock;
 		while (running)
 		{
 			deltaTime = clock.restart().asSeconds();
 
-			physics::Manager::getInstance().update();
-			gameplay::Manager::getInstance().update();
-			graphics::Manager::getInstance().update();
+			physicsManager->update();
+			inputManager->update();
+			graphicsManager->update();
+			gameplayManager->update();
 
-			graphics::Manager::getInstance().render();
+			graphicsManager->render();
 		}
 	}
 
@@ -62,11 +76,15 @@ namespace engine
 		running = false;
 	}
 
-	Engine &Engine::getInstance()
+	void Engine::onApplicationEvent(const sf::Event& event)
 	{
-		if (!instance)
-			instance = new Engine();
+		switch (event.type)
+		{
+			case sf::Event::Closed:
+				exit();
+				return;
+		}
 
-		return *instance;
+		inputManager->onApplicationEvent(event);
 	}
 }

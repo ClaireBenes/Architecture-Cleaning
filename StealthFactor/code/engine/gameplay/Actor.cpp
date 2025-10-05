@@ -6,6 +6,11 @@ namespace engine
 {
 	namespace gameplay
 	{
+		Actor::Actor(const ManagerProvider& managerProvider)
+			: managerProvider(managerProvider)
+		{
+		}
+
 		Actor::~Actor()
 		{
 			for (const std::shared_ptr<Component>& component : components)
@@ -42,9 +47,14 @@ namespace engine
 			updateTransform();
 		}
 
-		const sf::Transform & Actor::getTransform() const
+		const sf::Transform &Actor::getTransform() const
 		{
 			return _transform;
+		}
+
+		const ManagerProvider &Actor::getManagerProvider() const
+		{
+			return managerProvider;
 		}
 
 		void Actor::updateTransform()

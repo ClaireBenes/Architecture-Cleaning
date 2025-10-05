@@ -11,7 +11,7 @@ namespace engine
 			class Player : public Character
 			{
 			public:
-				Player();
+				Player(const ManagerProvider& managerProvider);
 
 				virtual void update() override;
 

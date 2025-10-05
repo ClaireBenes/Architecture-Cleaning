@@ -3,6 +3,7 @@
 #include <engine/gameplay/GameplayManager.hpp>
 #include <engine/graphics/GraphicsManager.hpp>
 #include <engine/physics/PhysicsManager.hpp>
+#include <engine/Engine.hpp>
 
 namespace engine
 {
@@ -10,13 +11,20 @@ namespace engine
 	{
 		namespace actors
 		{
-			Target::Target()
+			Target::Target(const ManagerProvider& managerProvider)
+				: Actor(managerProvider)
 			{
 				renderComponent = std::make_shared<RenderComponent>(*this);
 				renderComponent->getShapeList().load("target");
 				addComponent(renderComponent);
 
-				collisionGeomId = dCreateBox(physics::Manager::getInstance().getSpaceId(), gameplay::Manager::CELL_SIZE * 0.9f, gameplay::Manager::CELL_SIZE * 0.9f, 1.f);
+				physics::Manager* physicsManager = managerProvider.physicsManager;
+				collisionGeomId = dCreateBox(
+					physicsManager->getSpaceId(), 
+					gameplay::Manager::CELL_SIZE * 0.9f, 
+					gameplay::Manager::CELL_SIZE * 0.9f,
+					1.f
+				);
 				dGeomSetData(collisionGeomId, this);
 			}
 

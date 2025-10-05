@@ -5,6 +5,8 @@
 
 #include <SFML/Graphics/Transform.hpp>
 
+#include <engine/gameplay/ManagerProvider.h>
+
 namespace engine
 {
 	namespace gameplay
@@ -14,6 +16,7 @@ namespace engine
 		class Actor
 		{
 		public:
+			Actor(const ManagerProvider& managerProvider);
 			virtual ~Actor();
 
 			virtual void update() = 0;
@@ -27,6 +30,11 @@ namespace engine
 			void setRotation(float newRotation);
 
 			const sf::Transform &getTransform() const;
+
+			const ManagerProvider &getManagerProvider() const;
+
+		protected:
+			const ManagerProvider &managerProvider;
 
 		private:
 			std::vector<std::shared_ptr<Component>> components{};

@@ -19,7 +19,11 @@ namespace engine
 	namespace gameplay
 	{
 		const float Manager::CELL_SIZE = 50.f;
-		Manager *Manager::instance = nullptr;
+
+		Manager::Manager(const ManagerProvider& managerProvider)
+			: managerProvider(managerProvider)
+		{
+		}
 
 		void Manager::update()
 		{
@@ -90,7 +94,7 @@ namespace engine
 
 						std::string archetypeName = xmlElement.child_value("archetype");
 
-						auto entity = new actors::Enemy{ archetypeName };
+						auto entity = new actors::Enemy{ managerProvider, archetypeName };
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
 						actors.insert(entity);
@@ -104,7 +108,7 @@ namespace engine
 						int column = std::stoi(xmlElement.child_value("column"));
 						assert(column >= 0 && column < columns);
 
-						auto entity = new actors::Player{};
+						auto entity = new actors::Player{ managerProvider };
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
 						actors.insert(entity);
@@ -119,7 +123,7 @@ namespace engine
 						int column = std::stoi(xmlElement.child_value("column"));
 						assert(column >= 0 && column < columns);
 
-						auto entity = new actors::Target{};
+						auto entity = new actors::Target{ managerProvider };
 						entity->setPosition(sf::Vector2f{ (column + 0.5f) * CELL_SIZE, (row + 0.5f) * CELL_SIZE });
 
 						actors.insert(entity);
@@ -153,14 +157,6 @@ namespace engine
 		{
 			assert(playerActor);
 			return *playerActor;
-		}
-
-		Manager &Manager::getInstance()
-		{
-			if (!instance)
-				instance = new Manager();
-
-			return *instance;
 		}
 	}
 }

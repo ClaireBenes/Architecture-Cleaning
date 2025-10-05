@@ -41,8 +41,9 @@ int main(int argc, const char **argv)
 	}
 #endif
 
-	engine::Engine::getInstance().loadConfiguration();
-	engine::Engine::getInstance().run();
+	engine::Engine engine {};
+	engine.loadConfiguration();
+	engine.run();
 
 	return EXIT_SUCCESS;
 }

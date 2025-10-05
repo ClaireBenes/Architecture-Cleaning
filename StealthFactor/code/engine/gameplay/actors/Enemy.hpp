@@ -13,7 +13,7 @@ namespace engine
 			class Enemy : public Character
 			{
 			public:
-				Enemy(const std::string &archetypeName);
+				Enemy(const ManagerProvider& managerProvider, const std::string &archetypeName);
 
 				virtual void update() override;
 
