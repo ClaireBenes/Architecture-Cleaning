@@ -5,24 +5,22 @@
 #include <engine/graphics/ShapeList.hpp>
 
 #include <engine/gameplay/Actor.hpp>
-#include <engine/gameplay/components/RenderComponent.hpp>
 
 namespace engine
 {
 	namespace gameplay
 	{
+		class RenderComponent;
+
 		namespace actors
 		{
 			class Character : public Actor
 			{
 			public:
 				Character(const ManagerProvider& managerProvider);
-				virtual ~Character();
 
 			protected:
 				std::shared_ptr<RenderComponent> renderComponent;
-
-				dGeomID collisionGeomId;
 
 				bool isWalking{ false };
 			};

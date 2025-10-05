@@ -2,6 +2,8 @@
 
 #include <ode/odeinit.h>
 
+#include <engine/gameplay/components/PhysicsComponent.hpp>
+
 namespace engine
 {
 	namespace physics
@@ -36,23 +38,33 @@ namespace engine
 			return spaceId;
 		}
 
-		std::set<dGeomID> Manager::getCollisionsWith(dGeomID object) const
+		std::set<std::shared_ptr<gameplay::PhysicsComponent>> Manager::getCollisionsWith(
+			const std::shared_ptr<gameplay::PhysicsComponent>& component
+		) const
 		{
-			std::set<dGeomID> objectCollisions;
+			std::set<std::shared_ptr<gameplay::PhysicsComponent>> objectCollisions{};
 
-			for (auto &collision : frameCollisions)
+			dGeomID componentGeomId = static_cast<dGeomID>(component->getShapePointer());
+			for (const Collision &collision : frameCollisions)
 			{
-				if (collision.o1 == object)
+				if (collision.o1 == componentGeomId)
 				{
-					objectCollisions.insert(collision.o2);
+					objectCollisions.insert(getComponentFromGeomData(collision.o2));
 				}
-				if (collision.o2 == object)
+				if (collision.o2 == componentGeomId)
 				{
-					objectCollisions.insert(collision.o1);
+					objectCollisions.insert(getComponentFromGeomData(collision.o1));
 				}
 			}
 
 			return objectCollisions;
+		}
+
+		std::shared_ptr<gameplay::PhysicsComponent> Manager::getComponentFromGeomData(dGeomID geomId) const
+		{
+			void* geomData = dGeomGetData(geomId);
+			gameplay::PhysicsComponent* component = reinterpret_cast<gameplay::PhysicsComponent*>(geomData);
+			return component->getSharedPointer<gameplay::PhysicsComponent>();
 		}
 
 		void Manager::nearCallback(void *data, dGeomID o1, dGeomID o2)

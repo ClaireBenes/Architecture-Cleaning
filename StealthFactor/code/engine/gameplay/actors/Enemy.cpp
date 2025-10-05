@@ -5,8 +5,10 @@
 
 #include <pugixml/pugixml.hpp>
 
-#include <engine/gameplay/actors/Player.hpp>
 #include <engine/gameplay/GameplayManager.hpp>
+#include <engine/gameplay/actors/Player.hpp>
+
+#include <engine/gameplay/components/RenderComponent.hpp>
 
 namespace engine
 {

@@ -23,6 +23,8 @@ namespace engine
 				return std::static_pointer_cast<T>(shared_from_this());
 			}
 
+			Actor* getOwner() const;
+
 		protected:
 			Actor& owner;
 		};

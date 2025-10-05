@@ -6,6 +6,8 @@ namespace engine
 {
 	namespace gameplay
 	{
+		class PhysicsComponent;
+
 		namespace actors
 		{
 			class Player : public Character
@@ -18,6 +20,8 @@ namespace engine
 				bool hasJustMoved() const;
 
 			private:
+				std::shared_ptr<PhysicsComponent> physicsComponent;
+
 				bool justMoved{ false };
 			};
 		}

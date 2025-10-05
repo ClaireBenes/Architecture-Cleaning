@@ -8,5 +8,10 @@ namespace engine
 			: owner(owner)
 		{
 		}
+
+		Actor* Component::getOwner() const
+		{
+			return &owner;
+		}
 	}
 }

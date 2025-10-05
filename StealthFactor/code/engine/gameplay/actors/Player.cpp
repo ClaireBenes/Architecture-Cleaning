@@ -1,7 +1,5 @@
 #include "Player.hpp"
 
-#include <ode/collision.h>
-
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
@@ -9,9 +7,10 @@
 #include <engine/gameplay/GameplayManager.hpp>
 #include <engine/gameplay/actors/Target.hpp>
 
+#include <engine/gameplay/components/RenderComponent.hpp>
+#include <engine/gameplay/components/PhysicsComponent.hpp>
+
 #include <engine/input/InputManager.hpp>
-#include <engine/physics/PhysicsManager.hpp>
-#include <engine/Engine.hpp>
 
 namespace engine
 {
@@ -23,15 +22,14 @@ namespace engine
 				: Character(managerProvider)
 			{
 				renderComponent->getShapeList().load("player");
-				
-				// TODO: make a PhysicsComponent/BoxComponent
-				collisionGeomId = dCreateBox(
-					managerProvider.physicsManager->getSpaceId(), 
-					gameplay::Manager::CELL_SIZE * 0.9f, 
-					gameplay::Manager::CELL_SIZE * 0.9f, 
+
+				physicsComponent = std::make_shared<PhysicsComponent>(*this);
+				physicsComponent->createBox(
+					gameplay::Manager::CELL_SIZE * 0.9f,
+					gameplay::Manager::CELL_SIZE * 0.9f,
 					1.f
 				);
-				dGeomSetData(collisionGeomId, this);
+				addComponent(physicsComponent);
 			}
 
 			void Player::update()
@@ -75,19 +73,16 @@ namespace engine
 					setPosition(position);
 					setRotation(rotation);
 
-					dGeomSetPosition(collisionGeomId, position.x, position.y, 0);
+					physicsComponent->updatePosition();
 				}
 
-				physics::Manager* physicsManager = managerProvider.physicsManager;
 				gameplay::Manager* gameplayManager = managerProvider.gameplayManager;
-
-				// TODO: make a method on our soon-existing PhysicsComponent to get on-going collisions
-				auto collisions = physicsManager->getCollisionsWith(collisionGeomId);
-				for (auto &geomId : collisions)
+				for (const std::shared_ptr<PhysicsComponent> &collidedComponent : physicsComponent->getActiveCollisions())
 				{
-					auto entity = reinterpret_cast<Actor *>(dGeomGetData(geomId));
-					auto targetEntity = dynamic_cast<actors::Target *>(entity);
-					if (targetEntity)
+					Actor *actor = collidedComponent->getOwner();
+
+					auto targetActor = dynamic_cast<actors::Target *>(actor);
+					if (targetActor)
 					{
 						gameplayManager->loadNextMap();
 					}

@@ -1,7 +1,8 @@
 #include "Target.hpp"
 
 #include <engine/gameplay/GameplayManager.hpp>
-#include <engine/physics/PhysicsManager.hpp>
+#include <engine/gameplay/components/PhysicsComponent.hpp>
+#include <engine/gameplay/components/RenderComponent.hpp>
 
 namespace engine
 {
@@ -16,25 +17,18 @@ namespace engine
 				renderComponent->getShapeList().load("target");
 				addComponent(renderComponent);
 
-				physics::Manager* physicsManager = managerProvider.physicsManager;
-				collisionGeomId = dCreateBox(
-					physicsManager->getSpaceId(), 
+				physicsComponent = std::make_shared<PhysicsComponent>(*this);
+				physicsComponent->createBox(
 					gameplay::Manager::CELL_SIZE * 0.9f, 
 					gameplay::Manager::CELL_SIZE * 0.9f,
 					1.f
 				);
-				dGeomSetData(collisionGeomId, this);
-			}
-
-			Target::~Target()
-			{
-				dGeomDestroy(collisionGeomId);
+				addComponent(physicsComponent);
 			}
 
 			void Target::update()
 			{
-				auto &position = getPosition();
-				dGeomSetPosition(collisionGeomId, position.x, position.y, 0);
+				physicsComponent->updatePosition();
 			}
 		}
 	}
