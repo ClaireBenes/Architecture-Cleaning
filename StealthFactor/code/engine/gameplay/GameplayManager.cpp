@@ -45,6 +45,8 @@ namespace engine
 				loadMap(currentMapName);
 				shouldGameOver = false;
 			}
+
+			managerProvider.graphicsManager->setCameraCenter(getViewCenter());
 		}
 
 		void Manager::gameOver()

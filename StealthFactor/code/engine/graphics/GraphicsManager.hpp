@@ -33,6 +33,8 @@ namespace engine
 			void addRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent);
 			void removeRenderComponent(const std::shared_ptr<gameplay::RenderComponent>& renderComponent);
 
+			void setCameraCenter(sf::Vector2f viewCenter);
+
 		private:
 			void clear();
 			void display();
@@ -41,6 +43,7 @@ namespace engine
 			std::vector<std::shared_ptr<gameplay::RenderComponent>> renderComponents{};
 
 			sf::RenderWindow window;
+			sf::View cameraView;
 
 			ApplicationEventListener& eventListener;
 

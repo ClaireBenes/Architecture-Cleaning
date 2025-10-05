@@ -22,8 +22,10 @@ namespace engine
 
 			window.setVerticalSyncEnabled(true);
 
-			sf::View view(sf::Vector2f{ 0.f, 0.f }, sf::Vector2f{ (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT });
-			window.setView(view);
+			cameraView = sf::View(
+				sf::Vector2f{ 0.f, 0.f }, 
+				sf::Vector2f{ (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT }
+			);
 		}
 
 		Manager::~Manager()
@@ -33,9 +35,6 @@ namespace engine
 
 		void Manager::update()
 		{
-			//input::Manager& inputManager = engine.getInputManager();
-			//inputManager.clear();
-
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
@@ -58,10 +57,7 @@ namespace engine
 		void Manager::clear()
 		{
 			window.clear(sf::Color::Black);
-
-			//gameplay::Manager& gameplayManager = engine.getGameplayManager();
-			//sf::View view{ gameplayManager.getViewCenter(), sf::Vector2f{(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT} };
-			//window.setView(view);
+			window.setView(cameraView);
 		}
 
 		void Manager::draw(const ShapeList &shapeList, const sf::Transform &transform)
@@ -94,6 +90,11 @@ namespace engine
 			assert(itr != renderComponents.end());
 
 			renderComponents.erase(itr);
+		}
+
+		void Manager::setCameraCenter(sf::Vector2f viewCenter)
+		{
+			cameraView.setCenter(viewCenter);
 		}
 	}
 }
