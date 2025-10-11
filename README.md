@@ -1,42 +1,16 @@
-# Software Architecture Applied To Game Engines - ArtFX 2020
+# Architecture Cleaning Class Project
 
-This repository contains the materials for the course on software architecture. It features a game project, whose architecture is a lighter version of industrial-grade ones.
+## Overview
+This project demonstrates a clean and modular C++ architecture designed around the principles of clarity, ownership, and maintainability.  
+The main focus areas include:
+- Clear separation of responsibilities between components
+- Smart pointer–based memory management (`std::unique_ptr`, `std::shared_ptr`)
+- Avoiding singletons and global state
+- Proper documentation and diagrams
 
-The project's code contains voluntary errors and design flaws which are addressed during the classes. The repository is updated after every class, in order to reflect the evolution of its code.
+---
 
-## Installation
+## Project Structure
+<img width="1831" height="1032" alt="2025-10-11_165624_final" src="https://github.com/user-attachments/assets/f9ed451c-4ac3-4e24-962d-521d2571bc83" />
+<img width="1835" height="625" alt="2025-10-11_165624_final3" src="https://github.com/user-attachments/assets/1a4b98d1-2daf-4748-8a8f-dfd1b0df6f96" />
 
-The following tools are required:
-
-1. [Premake 5](https://premake.github.io/download.html)
-2. [Visual Studio 2017 or higher](https://www.visualstudio.com/downloads/)
-
-If you're not on Windows, or cannot use Visual Studio, Premake allows to use other toolchains, please read its documentation.
-
-## Build
-
-Open a terminal in _StealthFactor_ directory and follow the instructions for your platform.
-
-### Windows
-
-    premake5.exe vs2019
-
-Open _build\StealthFactor.sln_, choose your target, and build.
-
-### Linux
-
-    apt-get install -y g++ g++-multilib libode-dev libsfml-dev make
-    premake5 gmake2
-    cd build
-    make config=release_linux64
-
-## External dependencies
-
-In order to simplify installation of the project, the repository contains parts of external projects, in source code form or executable form.
-
-Although the code should support multiple platforms, only precompiled libraries for Windows are provided.
-
-1. [cli.cpp](https://github.com/KoltesDigital/cli.cpp), a CLI argument parser (header-only)
-2. [ODE](http://www.ode.org/), a physics engine
-3. [pugixml](http://pugixml.org/), an XML parser (header-only)
-4. [SFML](https://www.sfml-dev.org/), a small multimedia framework
