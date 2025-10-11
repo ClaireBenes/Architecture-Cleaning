@@ -47,28 +47,3 @@ int main(int argc, const char **argv)
 
 	return EXIT_SUCCESS;
 }
-
-
-// NEEDED for Friday 10:
-// - Clear Layer and dependencies cleaning - V
-// - Make a class diagram of the refactored code
-// - Actor / Component need to be implemented - V
-// - Remove singleton - V
-// - Implement ownership using smrt pointr (especially unique) and RAII - ~V (Actor missing ownership with shared_ptr)
-
-// Remove THAT MUCH dependencies in the managers or at least explicit it ("class SGSGDFGDF" in the hpp)
-// DECOUPLE : Use components, Inheritance or Interface ?  Or pattern like Strategy or Observer
-// Reimplement actor / component pattern
-// REMOVE Singleton : use pointers or observer pattern
-// Avoid Macros (the main one)? Use premake or something with a class that deal with setting data and to separate linux and windows folder?
-// Have coherent code style
-// For the physic manager shit, use a void* or template (or contexpr) to pass collision shit
-// Graphic manager should become a manager. 
-// Create some struct for the caharcter data or idk ?
-// Do some abstraction to be able to change library or whatever in the future 
-
-
-// diff between a pointer and a reference : 
-// 1. A reference cannot be null
-// 2. A pointer use arrow and a reference use a point.
-// 3. You cannot change the adress linked to a reference
